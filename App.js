@@ -1,4 +1,4 @@
-// import the screens
+// import the screens we want to navigate
 import Screen1 from './components/Screen1';
 import Screen2 from './components/Screen2';
 
