@@ -20,7 +20,7 @@ const Start = ({ navigation }) => {
             <View style={styles.container}>
                 <View style={styles.subContainer}>
                     <Text style={[styles.plainText, styles.setColorWhite]}>
-                        Chat Demo
+                        Chat App
                     </Text>
                 </View>
                 <View style={styles.subContainer}>
