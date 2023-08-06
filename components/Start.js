@@ -3,13 +3,13 @@ import { useState } from "react";
 
 
 
-const Screen1 = ({ navigation }) => {
+const Start = ({ navigation }) => {
 
   const [name, setName] = useState('');
 
     return (
         <View style={styles.container}>
-            <Text style={styles.plainText}>Hello Screen1!</Text>
+            <Text style={styles.plainText}>Start Screen!</Text>
             <TextInput
                 style={styles.textInput}
                 value={name}
@@ -18,10 +18,10 @@ const Screen1 = ({ navigation }) => {
             />
             <TouchableOpacity
                 style={styles.button}
-                title="Go to Screen 2"
-                onPress={() => navigation.navigate("Screen2", { name: name })}
+                title="Go to Chat"
+                onPress={() => navigation.navigate("Chat", { name: name })}
             >
-                <Text style={styles.buttonText}>Go to Screen 2</Text>
+                <Text style={styles.buttonText}>Go to Chat</Text>
             </TouchableOpacity>
         </View>
     );
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Screen1;
+export default Start;

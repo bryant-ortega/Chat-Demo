@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-const Screen2 = ({ route, navigation }) => {
+const Chat = ({ route, navigation }) => {
 
   const { name } = route.params;
 
@@ -11,7 +11,7 @@ const Screen2 = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>Hello Screen2!</Text>
+            <Text>Chat!</Text>
         </View>
     );
 };
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Screen2;
+export default Chat;
