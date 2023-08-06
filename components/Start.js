@@ -30,7 +30,7 @@ const Start = ({ navigation }) => {
                         onChangeText={setName}
                         placeholder="Your name"
                     />
-                    <Text>Choose Background Color</Text>
+                    <Text style={{fontWeight: 600}}>Choose Background Color</Text>
                     {/*this container is required to keep radio buttons in line */}
                     <View style={styles.radioButtonContainer}>
                         <TouchableOpacity
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         marginTop: 15,
         marginBottom: 30,
+        borderRadius: 10,
     },
     radioButtonContainer: {
         width: "70%",
@@ -125,8 +126,8 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: "center",
-        width: "99%",
-        paddingVertical: 20,
+        width: "88%",
+        paddingVertical: 17,
         backgroundColor: "#757083",
         borderRadius: 10,
     },
