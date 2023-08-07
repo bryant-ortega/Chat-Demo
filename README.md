@@ -7,3 +7,7 @@ A React Native Mobile Chat Application. The app provides users with a chat inter
 - Displays the conversation, as well as an input field and submit button. 
 - The chat provides users with two additional communication features: sending images and location data. 
 - Data gets stored online and offline.
+
+Dependencies:
+Expo
+React Gifted Chat
