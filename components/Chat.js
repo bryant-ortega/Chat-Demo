@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, SystemMessage } from "react-native-gifted-chat";
 
 const Chat = ({ route, navigation }) => {
     const [messages, setMessages] = useState([]);
     const { name, color } = route.params;
-    
+
     // added system avatar
     const chatAvatar = require("../assets/Hal.jpg");
 
@@ -15,6 +15,17 @@ const Chat = ({ route, navigation }) => {
             GiftedChat.append(previousMessages, newMessages)
         );
     };
+// attempted to change systemMessage text color
+    // const customSystemMessage = props => {
+    //   return (
+    //     <SystemMessage
+    //     {...props}
+    //     textStyle={{
+    //       color: "#FFF"
+    //     }}
+    //     />
+    //   )
+    // }
 
 // text bubble customization 
     const renderBubble = props => {
@@ -37,7 +48,7 @@ const Chat = ({ route, navigation }) => {
         setMessages([
             {
                 _id: 1,
-                text: "You have entered the chat.",
+                text: ("Good morning " + name + ", you have entered the chat."),
                 createdAt: new Date(),
                 user: {
                     _id: 2,
