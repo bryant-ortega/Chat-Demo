@@ -5,6 +5,8 @@ import {
     TextInput,
     TouchableOpacity,
     ImageBackground,
+    KeyboardAvoidingView, 
+    Platform,
 } from "react-native";
 import { useState } from "react";
 
@@ -30,7 +32,9 @@ const Start = ({ navigation }) => {
                         onChangeText={setName}
                         placeholder="Your name"
                     />
-                    <Text style={{fontWeight: 600}}>Choose Background Color</Text>
+                    <Text style={{ fontWeight: 600 }}>
+                        Choose Background Color
+                    </Text>
                     {/*this container is required to keep radio buttons in line */}
                     <View style={styles.radioButtonContainer}>
                         <TouchableOpacity
@@ -76,6 +80,10 @@ const Start = ({ navigation }) => {
                         <Text style={styles.buttonText}>Start chatting</Text>
                     </TouchableOpacity>
                 </View>
+                {/*fixes keyboard view blocking the textInput on ios */}
+                {Platform.OS === "ios" ? (
+                    <KeyboardAvoidingView behavior="padding" />
+                ) : null}
             </View>
         </ImageBackground>
     );

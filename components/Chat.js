@@ -40,6 +40,7 @@ const Chat = ({ route, navigation }) => {
                     _id: 1,
                 }}
             />
+            {/*fixes keyboard view blocking the textInput on Android */}
             {Platform.OS === "android" ? (
                 <KeyboardAvoidingView behavior="height" />
             ) : null}
