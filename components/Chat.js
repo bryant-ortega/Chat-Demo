@@ -25,6 +25,12 @@ const Chat = ({ route, navigation }) => {
                     avatar: "https://placeimg.com/140/140/any",
                 },
             },
+            {
+                _id: 2,
+                text: "This is a system message",
+                createdAt: new Date(),
+                system: true,
+            },
         ]);
         //displays name at the top of chat screen
         navigation.setOptions({ title: name });
