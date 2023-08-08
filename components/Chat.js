@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
 const Chat = ({ route, navigation }) => {
     const [messages, setMessages] = useState([]);
     const { name, color } = route.params;
+    
+    // added system avatar
+    const chatAvatar = require("../assets/Hal.jpg");
 
     // called when a user sends a message
     const onSend = newMessages => {
@@ -13,16 +16,33 @@ const Chat = ({ route, navigation }) => {
         );
     };
 
+// text bubble customization 
+    const renderBubble = props => {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: "#800",
+                    },
+                    left: {
+                        backgroundColor: "#FFF",
+                    },
+                }}
+            />
+        );
+    };
+
     useEffect(() => {
         setMessages([
             {
                 _id: 1,
-                text: "Hello developer",
+                text: "You have entered the chat.",
                 createdAt: new Date(),
                 user: {
                     _id: 2,
                     name: "React Native",
-                    avatar: "https://placeimg.com/140/140/any",
+                    avatar: src=chatAvatar,
                 },
             },
             {
@@ -41,6 +61,7 @@ const Chat = ({ route, navigation }) => {
             {/*makes sure text is legible w various colors of backgrounds */}
             <GiftedChat
                 messages={messages}
+                renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
                     _id: 1,
