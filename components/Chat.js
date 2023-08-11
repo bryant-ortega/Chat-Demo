@@ -11,7 +11,7 @@ import {
 
 const Chat = ({ route, navigation, db }) => {
     const [messages, setMessages] = useState([]);
-    const { name, color, userID } = route.params;
+    const { name, color, uid } = route.params;
 
     let unsubMessages;
 
@@ -88,7 +88,7 @@ const Chat = ({ route, navigation, db }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: userID,
+                    _id: uid,
                     name,
                 }}
             />
