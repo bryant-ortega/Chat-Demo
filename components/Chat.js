@@ -87,8 +87,7 @@ const Chat = ({ route, navigation, db }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: userID,
-                    name: name,
+                    _id: userID, name
                 }}
             />
             {/*fixes keyboard view blocking the textInput on Android */}
