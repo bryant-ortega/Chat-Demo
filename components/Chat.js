@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble, SystemMessage } from "react-native-gifted-chat";
+import { GiftedChat, Bubble,  } from "react-native-gifted-chat";
+import {
+    addDoc,
+    collection,
+    onSnapshot,
+    orderBy,
+    query,
+} from "firebase/firestore";
 
-const Chat = ({ route, navigation }) => {
+const Chat = ({ route, navigation, db }) => {
     const [messages, setMessages] = useState([]);
-    const { name, color } = route.params;
+    const { name, color, userID } = route.params;
 
     // added system avatar
     const chatAvatar = require("../assets/Hal.jpg");
 
     // called when a user sends a message
-    const onSend = newMessages => {
-        setMessages(previousMessages =>
-            GiftedChat.append(previousMessages, newMessages)
-        );
-    };
+    const onSend = (newMessages) => {
+    addDoc(collection(db, "messages"), newMessages[0])
+  };
+
 // attempted to change systemMessage text color
     // const customSystemMessage = props => {
     //   return (
@@ -45,27 +51,30 @@ const Chat = ({ route, navigation }) => {
     };
 
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: ("Good morning " + name + ", you have entered the chat."),
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: "React Native",
-                    avatar: src=chatAvatar,
-                },
-            },
-            {
-                _id: 2,
-                text: "This is a system message",
-                createdAt: new Date(),
-                system: true,
-            },
-        ]);
-        //displays name at the top of chat screen
-        navigation.setOptions({ title: name });
-    }, []);
+      // Set navigation options for the title
+    navigation.setOptions({ title: name });
+        // Create a query to fetch messages from the Firestore collection
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+      // Subscribe to real-time updates using onSnapshot
+      unsubMessages = onSnapshot(q, (docs) => {
+        let messages = [];
+        // Process each document and create a new message object
+        docs.forEach((doc) => {
+          messages.push({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis()),
+          });
+        });
+      });
+
+        // Clean up code
+        return () => {
+            if (unsubMessages) unsubMessages();
+        };
+      }, []);
+
+
 
     return (
         <View style={[{ backgroundColor: color }, styles.container]}>
@@ -75,7 +84,7 @@ const Chat = ({ route, navigation }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: 1,
+                    _id: userID, name
                 }}
             />
             {/*fixes keyboard view blocking the textInput on Android */}

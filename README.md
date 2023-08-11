@@ -11,3 +11,4 @@ A React Native Mobile Chat Application. The app provides users with a chat inter
 Dependencies:
 Expo
 React Gifted Chat
+Cloud Firestore
