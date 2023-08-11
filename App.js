@@ -13,16 +13,15 @@ import { getFirestore } from "firebase/firestore";
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
-const App = () => {
-    const firebaseConfig = {
-        apiKey: "AIzaSyDZqoA9ZuQE2c_xZtUwHp2HA16MZf-ygTk",
-        authDomain: "shopping-list-demo-ab103.firebaseapp.com",
-        projectId: "shopping-list-demo-ab103",
-        storageBucket: "shopping-list-demo-ab103.appspot.com",
-        messagingSenderId: "561660294699",
-        appId: "1:561660294699:web:91af5f8503798d8f5c5c6e",
-    };
-
+const firebaseConfig = {
+  apiKey: "AIzaSyDMqYQ5nTthzBd4E669Ku4Oe3l-7uQaVys",
+  authDomain: "chatapp-11e31.firebaseapp.com",
+  projectId: "chatapp-11e31",
+  storageBucket: "chatapp-11e31.appspot.com",
+  messagingSenderId: "317111370639",
+  appId: "1:317111370639:web:07c5d289e3f3fe7a3c81fa",
+  measurementId: "G-154MGBMRTP"
+};
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
 
