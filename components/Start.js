@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ImageBackground,
     KeyboardAvoidingView,
-    Platform,
+    Platform, Alert
 } from "react-native";
 import { useState } from "react";
 

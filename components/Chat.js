@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble,  } from "react-native-gifted-chat";
+import { GiftedChat, Bubble  } from "react-native-gifted-chat";
 import {
     addDoc,
     collection,
@@ -13,15 +13,17 @@ const Chat = ({ route, navigation, db }) => {
     const [messages, setMessages] = useState([]);
     const { name, color, userID } = route.params;
 
+    let unsubMessages;
+
     // added system avatar
     const chatAvatar = require("../assets/Hal.jpg");
 
-    // called when a user sends a message
-    const onSend = (newMessages) => {
-    addDoc(collection(db, "messages"), newMessages[0])
-  };
+    // Append new message to firestore
+    const onSend = newMessages => {
+        addDoc(collection(db, "messages"), newMessages[0]);
+    };
 
-// attempted to change systemMessage text color
+    // attempted to change systemMessage text color
     // const customSystemMessage = props => {
     //   return (
     //     <SystemMessage
@@ -33,7 +35,7 @@ const Chat = ({ route, navigation, db }) => {
     //   )
     // }
 
-// text bubble customization 
+    // text bubble customization
     const renderBubble = props => {
         return (
             <Bubble
@@ -51,30 +53,31 @@ const Chat = ({ route, navigation, db }) => {
     };
 
     useEffect(() => {
-      // Set navigation options for the title
-    navigation.setOptions({ title: name });
+        // Set navigation options for the title
+        navigation.setOptions({ title: name });
         // Create a query to fetch messages from the Firestore collection
-      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-      // Subscribe to real-time updates using onSnapshot
-      unsubMessages = onSnapshot(q, (docs) => {
-        let messages = [];
-        // Process each document and create a new message object
-        docs.forEach((doc) => {
-          messages.push({
-            id: doc.id,
-            ...doc.data(),
-            createdAt: new Date(doc.data().createdAt.toMillis()),
-          });
+        const q = query(
+            collection(db, "messages"),
+            orderBy("createdAt", "desc")
+        );
+        // Subscribe to real-time updates using onSnapshot
+        unsubMessages = onSnapshot(q, docs => {
+            let messages = [];
+            // Process each document and create a new message object
+            docs.forEach(doc => {
+                messages.push({
+                    id: doc.id,
+                    ...doc.data(),
+                    createdAt: new Date(doc.data().createdAt.toMillis()),
+                });
+            });
         });
-      });
 
         // Clean up code
         return () => {
             if (unsubMessages) unsubMessages();
         };
-      }, []);
-
-
+    }, []);
 
     return (
         <View style={[{ backgroundColor: color }, styles.container]}>
@@ -84,7 +87,8 @@ const Chat = ({ route, navigation, db }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: userID, name
+                    _id: userID,
+                    name: name,
                 }}
             />
             {/*fixes keyboard view blocking the textInput on Android */}
