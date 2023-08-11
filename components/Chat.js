@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble  } from "react-native-gifted-chat";
+import { GiftedChat, Bubble } from "react-native-gifted-chat";
 import {
     addDoc,
     collection,
@@ -62,15 +62,16 @@ const Chat = ({ route, navigation, db }) => {
         );
         // Subscribe to real-time updates using onSnapshot
         unsubMessages = onSnapshot(q, docs => {
-            let messages = [];
+            let newMessages = [];
             // Process each document and create a new message object
             docs.forEach(doc => {
-                messages.push({
+                newMessages.push({
                     id: doc.id,
                     ...doc.data(),
                     createdAt: new Date(doc.data().createdAt.toMillis()),
                 });
             });
+            setMessages(newMessages);
         });
 
         // Clean up code
@@ -87,7 +88,8 @@ const Chat = ({ route, navigation, db }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: userID, name
+                    _id: userID,
+                    name,
                 }}
             />
             {/*fixes keyboard view blocking the textInput on Android */}
