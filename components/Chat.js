@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
+// Firebase
 import {
     addDoc,
     collection,
@@ -9,7 +10,10 @@ import {
     query,
 } from "firebase/firestore";
 
-const Chat = ({ route, navigation, db }) => {
+//AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const Chat = ({ route, navigation, db, isConnected }) => {
     const [messages, setMessages] = useState([]);
     const { name, color, uid } = route.params;
 
@@ -52,33 +56,62 @@ const Chat = ({ route, navigation, db }) => {
         );
     };
 
+    const loadCachedMessages = async () => {
+      const cachedMessages = 
+      (await AsyncStorage.getItem("messages")) || [];
+      setMessages(JSON.parse(cachedMessages));
+    };
+
+    let unsubMessages;
+
     useEffect(() => {
         // Set navigation options for the title
         navigation.setOptions({ title: name });
-        // Create a query to fetch messages from the Firestore collection
-        const q = query(
-            collection(db, "messages"),
-            orderBy("createdAt", "desc")
-        );
-        // Subscribe to real-time updates using onSnapshot
-        unsubMessages = onSnapshot(q, docs => {
-            let newMessages = [];
-            // Process each document and create a new message object
-            docs.forEach(doc => {
-                newMessages.push({
-                    id: doc.id,
-                    ...doc.data(),
-                    createdAt: new Date(doc.data().createdAt.toMillis()),
+        
+        if (isConnected === true) {
+            // unregister current onSnapshot() listener to avoid registering multiple listeners when
+            // useEffect code is re-executed.
+            if (unsubMessages) unsubMessages();
+            unsubMessages = null;
+            // Create a query to fetch messages from the Firestore collection
+            const q = query(
+                collection(db, "messages"),
+                orderBy("createdAt", "desc")
+            );
+            // Subscribe to real-time updates using onSnapshot
+            unsubMessages = onSnapshot(q, docs => {
+                let newMessages = [];
+                // Process each document and create a new message object
+                docs.forEach(doc => {
+                    newMessages.push({
+                        id: doc.id,
+                        ...doc.data(),
+                        createdAt: new Date(doc.data().createdAt.toMillis()),
+                    });
                 });
+                cachedMessages(newMessages);
+                setMessages(newMessages);
             });
-            setMessages(newMessages);
-        });
+        } else loadCachedMessages();
 
         // Clean up code
-        return () => {
-            if (unsubMessages) unsubMessages();
-        };
-    }, []);
+            return () => {  
+                if (unsubMessages) unsubMessages();
+            };
+    }, [isConnected]);
+
+    const cachedMessages = async (messagesToCache) => {
+      try {
+        await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    const renderInputToolbar = props => {
+        if (isConnected) return <InputToolbar {...props} />;
+        else return null;
+    };
 
     return (
         <View style={[{ backgroundColor: color }, styles.container]}>
