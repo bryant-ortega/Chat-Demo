@@ -19,7 +19,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
 
 
     // added system avatar
-    const chatAvatar = require("../assets/Hal.jpg");
+    // const chatAvatar = require("../assets/Hal.jpg");
 
     // Append new message to firestore
     const onSend = newMessages => {
