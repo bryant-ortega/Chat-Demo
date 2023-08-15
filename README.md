@@ -9,6 +9,8 @@ A React Native Mobile Chat Application. The app provides users with a chat inter
 - Data gets stored online and offline.
 
 Dependencies:
-Expo
-React Gifted Chat
-Cloud Firestore
+- Expo
+- React Gifted Chat
+- Cloud Firestore
+- AsyncStorage
+- NetInfo
