@@ -125,6 +125,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                     _id: uid,
                     name,
                 }}
+                renderInputToolbar={renderInputToolbar}
             />
             {/*fixes keyboard view blocking the textInput on Android */}
             {Platform.OS === "android" ? (
