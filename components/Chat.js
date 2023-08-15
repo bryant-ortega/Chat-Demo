@@ -17,7 +17,6 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     const [messages, setMessages] = useState([]);
     const { name, color, uid } = route.params;
 
-    let unsubMessages;
 
     // added system avatar
     const chatAvatar = require("../assets/Hal.jpg");
@@ -57,9 +56,8 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     };
 
     const loadCachedMessages = async () => {
-      const cachedMessages = 
-      (await AsyncStorage.getItem("messages")) || [];
-      setMessages(JSON.parse(cachedMessages));
+        const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
+        setMessages(JSON.parse(cachedMessages));
     };
 
     let unsubMessages;
@@ -67,7 +65,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     useEffect(() => {
         // Set navigation options for the title
         navigation.setOptions({ title: name });
-        
+
         if (isConnected === true) {
             // unregister current onSnapshot() listener to avoid registering multiple listeners when
             // useEffect code is re-executed.
@@ -95,17 +93,20 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         } else loadCachedMessages();
 
         // Clean up code
-            return () => {  
-                if (unsubMessages) unsubMessages();
-            };
+        return () => {
+            if (unsubMessages) unsubMessages();
+        };
     }, [isConnected]);
 
-    const cachedMessages = async (messagesToCache) => {
-      try {
-        await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
-      } catch (error) {
-        console.log(error.message);
-      }
+    const cachedMessages = async messagesToCache => {
+        try {
+            await AsyncStorage.setItem(
+                "messages",
+                JSON.stringify(messagesToCache)
+            );
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     const renderInputToolbar = props => {
