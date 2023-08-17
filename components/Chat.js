@@ -153,7 +153,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 renderActions={renderCustomActions}
                 renderCustomView={renderCustomView}
                 user={{
-                    _id: userID,
+                    _id: uid,
                     name,
                 }}
             />

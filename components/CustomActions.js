@@ -40,7 +40,9 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
       if (permissions?.granted) {
           let result = await ImagePicker.launchImageLibraryAsync();
           if (!result.canceled) {
-              console.log("uploading and uploading the image occurs here");
+              const imageURI = result.assets[0].uri;
+              const response = await fetch(imageURI);
+              const blob = await response.blob();
           } else Alert.alert("Permissions haven't been granted.");
       }
   };
@@ -54,7 +56,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
           } else Alert.alert("Permissions haven't been granted.");
       }
   };
-  
+
   const getLocation = async () => {
       let permissions = await Location.requestForegroundPermissionsAsync();
       if (permissions?.granted) {
