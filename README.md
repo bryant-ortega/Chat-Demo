@@ -14,3 +14,4 @@ Dependencies:
 - Cloud Firestore
 - AsyncStorage
 - NetInfo
+- react-native-maps

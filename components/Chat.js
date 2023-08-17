@@ -118,7 +118,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     };
 
     const renderCustomActions = props => {
-      return <CustomActions {...props} />;
+      return <CustomActions storage={storage} {...props} />;
     };
 
     const renderCustomView = props => {

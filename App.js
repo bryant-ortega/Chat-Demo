@@ -1,13 +1,18 @@
 // import the screens we want to navigate
-import Start from './components/Start';
-import Chat from './components/Chat';
+import Start from "./components/Start";
+import Chat from "./components/Chat";
 
 // import react Navigation
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
+import {
+    getFirestore,
+    disableNetwork,
+    enableNetwork,
+} from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
@@ -19,17 +24,18 @@ LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const connectionStatus = useNetInfo();
+    const connectionStatus = useNetInfo();
+    const storage = getStorage(app);
 
-  useEffect(() => {
-    if (connectionStatus.isConnected === false) {
-      Alert.alert("Connection Lost!");
-      disableNetwork(db);
-    } else if (connectionStatus.isConnected === true) {
-      enableNetwork(db);
-    }
-  }, [connectionStatus.isConnected]);
-  
+    useEffect(() => {
+        if (connectionStatus.isConnected === false) {
+            Alert.alert("Connection Lost!");
+            disableNetwork(db);
+        } else if (connectionStatus.isConnected === true) {
+            enableNetwork(db);
+        }
+    }, [connectionStatus.isConnected]);
+
     const firebaseConfig = {
         apiKey: "AIzaSyDMqYQ5nTthzBd4E669Ku4Oe3l-7uQaVys",
         authDomain: "chatapp-11e31.firebaseapp.com",
@@ -50,16 +56,19 @@ const App = () => {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Start">
                 <Stack.Screen name="Start" component={Start} />
-                <Stack.Screen name="Chat" >
-                    {props => <Chat 
-                    isConnected={connectionStatus.isConnected}
-                    db={db} {...props} />}
+                <Stack.Screen name="Chat">
+                    {props => (
+                        <Chat
+                            isConnected={connectionStatus.isConnected}
+                            db={db}
+                            storage={storage}
+                            {...props}
+                        />
+                    )}
                 </Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );
 };
-
-
 
 export default App;
