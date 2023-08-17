@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
-import MapView from "react-native-maps";
+
 
 // Firebase
 import {
@@ -14,9 +14,10 @@ import {
 
 //AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MapView from "react-native-maps";
 import CustomActions from './CustomActions';
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
     const [messages, setMessages] = useState([]);
     const { name, color, uid } = route.params;
 

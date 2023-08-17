@@ -6,6 +6,7 @@ import Chat from "./components/Chat";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+// import functions for initializing firestore
 import { initializeApp } from "firebase/app";
 import {
     getFirestore,
@@ -25,17 +26,7 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
     const connectionStatus = useNetInfo();
-    const storage = getStorage(app);
-
-    useEffect(() => {
-        if (connectionStatus.isConnected === false) {
-            Alert.alert("Connection Lost!");
-            disableNetwork(db);
-        } else if (connectionStatus.isConnected === true) {
-            enableNetwork(db);
-        }
-    }, [connectionStatus.isConnected]);
-
+    
     const firebaseConfig = {
         apiKey: "AIzaSyDMqYQ5nTthzBd4E669Ku4Oe3l-7uQaVys",
         authDomain: "chatapp-11e31.firebaseapp.com",
@@ -51,6 +42,17 @@ const App = () => {
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore(app);
+
+    const storage = getStorage(app);
+
+    useEffect(() => {
+        if (connectionStatus.isConnected === false) {
+            Alert.alert("Connection Lost!");
+            disableNetwork(db);
+        } else if (connectionStatus.isConnected === true) {
+            enableNetwork(db);
+        }
+    }, [connectionStatus.isConnected]);
 
     return (
         <NavigationContainer>
