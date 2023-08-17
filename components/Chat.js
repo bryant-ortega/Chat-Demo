@@ -12,6 +12,7 @@ import {
 
 //AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomActions from './CustomActions';
 
 const Chat = ({ route, navigation, db, isConnected }) => {
     const [messages, setMessages] = useState([]);
@@ -114,18 +115,23 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         else return null;
     };
 
+    const renderCustomActions = props => {
+      return <CustomActions {...props} />;
+    };
+
     return (
         <View style={[{ backgroundColor: color }, styles.container]}>
             {/*makes sure text is legible w various colors of backgrounds */}
             <GiftedChat
                 messages={messages}
                 renderBubble={renderBubble}
+                renderInputToolbar={renderInputToolbar}
                 onSend={messages => onSend(messages)}
+                renderActions={renderCustomActions}
                 user={{
-                    _id: uid,
+                    _id: userID,
                     name,
                 }}
-                renderInputToolbar={renderInputToolbar}
             />
             {/*fixes keyboard view blocking the textInput on Android */}
             {Platform.OS === "android" ? (
