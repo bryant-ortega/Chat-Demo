@@ -14,4 +14,7 @@ Dependencies:
 - Cloud Firestore
 - AsyncStorage
 - NetInfo
+- expo-image-picker
+- expo-media-library
+- expo-location
 - react-native-maps
